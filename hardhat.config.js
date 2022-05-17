@@ -8,10 +8,11 @@ require("./scripts/deploy.js");
 require("./scripts/mint.js");
 require("@nomiclabs/hardhat-etherscan");
 
+
 const { ALCHEMY_KEY, ACCOUNT_PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
 
 module.exports = {
-   solidity: "0.8.0",
+   solidity: "0.8.10",
    defaultNetwork: "rinkeby",
    networks: {
     hardhat: {},
@@ -24,8 +25,5 @@ module.exports = {
       url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
       accounts: [`0x${ACCOUNT_PRIVATE_KEY}`]
     },
-  },
-  etherscan: {
-    apiKey: ETHERSCAN_API_KEY,
-  },
+  }
 }
