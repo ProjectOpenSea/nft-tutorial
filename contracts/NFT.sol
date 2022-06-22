@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/PullPayment.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+error WithdrawTransfer();
+
 
 contract NFT is ERC721, PullPayment, Ownable {
   using Counters for Counters.Counter;
@@ -46,6 +48,10 @@ contract NFT is ERC721, PullPayment, Ownable {
 
   /// @dev Overridden in order to make it an onlyOwner function
   function withdrawPayments(address payable payee) public override onlyOwner virtual {
-      super.withdrawPayments(payee);
+      uint256 balance = address(this).balance;
+      (bool transferTx, ) = payee.call{value: balance}("");
+      if (!transferTx) {
+          revert WithdrawTransfer();
+      }
   }
 }
